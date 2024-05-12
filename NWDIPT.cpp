@@ -1,77 +1,56 @@
 #include <iostream>
 #include <string>
-#include <stdio.h>
-#include <cstring>
 
 using namespace std;
 
-//global var
-string lines;
-string word;
-char letter;
+class StringSearch {
+public:
+    int find(const string& str, char c) {
 
-//string
-int findString(string a, string str)
-{
+        for (int i = 0; i < str.length(); ++i) {
+          
+            if (str[i] == c) {
+                return i;
+            }
+        }
+        return -1; // Not found
+    }
+
+    int find(const string& str, const string& substr) {
+
+        size_t found = str.find(substr);
+
+        if (found != string::npos) {
+            return found;
+        }
+        return -1; // Not found
+    }
+};
+
+int main() {
+    StringSearch searcher;
+    
+    
+    string input = "The quick brown fox";
+
+    cout << "Input String: " << input << endl;
+    
    
-  int find = str.find(a);
-  if(find != string::npos)
-  {
-    cout << "First found at" << find << endl;
-  }
-  else
-  {
-    cout << "\nNot Found";
-  }
-   return 0;
-}
+    char charQuery = 'e';
 
-//character
-int findString(char a, string str)
-{
-    int here = str.find(a);
-    if (here != string::npos)
-    {
-        cout << "First found at " << here << endl;
-    }
-    else
-  {
-    cout << "\nNot Found";
-  }
-
-    return 0;
-}
-
-
-int main()
-{
-    int opt;
+    cout << "Search Query: '" << charQuery << "'\tReturns: " << searcher.find(input, charQuery) << "\tSearch Query Type: char" << endl;
     
+   
+    string stringQuery1 = "e";
+
+    cout << "Search Query: \"" << stringQuery1 << "\"\tReturns: " << searcher.find(input, stringQuery1) << "\tSearch Query Type: string" << endl;
     
-    cout << "Choose an option\n1. Find a string \n2. Find a character\n" << endl;
-    cin >> opt;
+    string stringQuery2 = "quick";
 
-    string line;
-    cout << "\nEnter a string: " << endl;
-    cin >> lines;
-
-    //find a commom string
-    if(opt == 1)
-    {
-        cout << "\nEnter a word to find: " << endl;
-        cin >> word;
-        
-        findString(word, lines);
-    }
-
-    //find a common char
-    if(opt == 2)
-    {
-        cout << "\nEnter a character to find: " << endl;
-        cin >> letter;
-        findString(letter, lines);
-    }
-
+    cout << "Search Query: \"" << stringQuery2 << "\"\tReturns: " << searcher.find(input, stringQuery2) << "\tSearch Query Type: string" << endl;
+    
+    string stringQuery3 = "quiet";
+    cout << "Search Query: \"" << stringQuery3 << "\"\tReturns: " << searcher.find(input, stringQuery3) << "\tSearch Query Type: string" << endl;
+    
     return 0;
-
 }
