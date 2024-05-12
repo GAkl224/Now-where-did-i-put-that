@@ -3,54 +3,56 @@
 
 using namespace std;
 
-class StringSearch {
-public:
-    int find(const string& str, char c) {
-
-        for (int i = 0; i < str.length(); ++i) {
-          
-            if (str[i] == c) {
-                return i;
-            }
-        }
-        return -1; // Not found
+int find(const string& str, char c, int startPos = 0) {
+    if (startPos < 0 || startPos >= str.length()) {
+        return -1; // Invalid starting position
     }
-
-    int find(const string& str, const string& substr) {
-
-        size_t found = str.find(substr);
-
-        if (found != string::npos) {
-            return found;
+    for (int i = startPos; i < str.length(); ++i) {
+        if (str[i] == c) {
+            return i;
         }
-        return -1; // Not found
     }
-};
+    return -1; // Not found
+}
+
+int find(const string& str, const string& substr, int startPos = 0) {
+    if (startPos < 0 || startPos >= str.length()) {
+        return -1; // Invalid starting position
+    }
+    size_t found = str.find(substr, startPos);
+    if (found != string::npos) {
+        return found;
+    }
+    return -1; // Not found
+}
 
 int main() {
-    StringSearch searcher;
-    
-    
-    string input = "The quick brown fox";
-
+    // Test cases
+    string input = "Its a rainy day today";
     cout << "Input String: " << input << endl;
     
-   
-    char charQuery = 'e';
-
-    cout << "Search Query: '" << charQuery << "'\tReturns: " << searcher.find(input, charQuery) << "\tSearch Query Type: char" << endl;
+    // Testing character search
     
    
-    string stringQuery1 = "e";
+    char charQuery = 'a';
 
-    cout << "Search Query: \"" << stringQuery1 << "\"\tReturns: " << searcher.find(input, stringQuery1) << "\tSearch Query Type: string" << endl;
-    
-    string stringQuery2 = "quick";
+    int place;
 
-    cout << "Search Query: \"" << stringQuery2 << "\"\tReturns: " << searcher.find(input, stringQuery2) << "\tSearch Query Type: string" << endl;
+    cout << "\nEnter a position to search for a char in input string: ";
+    cin >> place;
+     cout << "Search Query: '" << charQuery << "', Starting Position: " << place<< "\tReturns: " << find(input, charQuery, place) << "\tSearch Query Type: char" << endl;
+    cout << "Search Query: '" << charQuery << "', Starting Position: None Specified\tReturns: " << find(input, charQuery) << "\tSearch Query Type: char" << endl;
+    cout << "Search Query: '" << charQuery << "', Starting Position: 500\tReturns: " << find(input, charQuery, 500) << "\tSearch Query Type: char" << endl;
     
-    string stringQuery3 = "quiet";
-    cout << "Search Query: \"" << stringQuery3 << "\"\tReturns: " << searcher.find(input, stringQuery3) << "\tSearch Query Type: string" << endl;
+    // Testing substring search
+    int position;
+    cout << "\nEnter a position to search for a string in input string: ";
+    cin >> position;
+
+    string stringQuery = "day";
+    cout << "Search Query: \"" << stringQuery << "\", Starting Position: None Specified\tReturns: " << find(input, stringQuery) << "\tSearch Query Type: string" << endl;
+    cout << "Search Query: \"" << stringQuery << "\", Starting Position: " << position << "\tReturns: " << find(input, stringQuery, position) << "\tSearch Query Type: string" << endl;
+    cout << "Search Query: \"" << stringQuery << "\", Starting Position: 500\tReturns: " << find(input, stringQuery, 500) << "\tSearch Query Type: string" << endl;
     
     return 0;
 }
